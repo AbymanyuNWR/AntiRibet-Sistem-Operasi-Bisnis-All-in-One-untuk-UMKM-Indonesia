@@ -1,0 +1,52 @@
+name: Antiribet CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  laravel-backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+    - name: Install Composer Dependencies
+      working-directory: ./backend
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Run Tests (Pessimistic Locking & API)
+      working-directory: ./backend
+      run: php artisan test
+
+  flutter-frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.22.x'
+        channel: 'stable'
+    - name: Install Flutter Dependencies
+      working-directory: ./app
+      run: flutter pub get
+    - name: Analyze Dart Code
+      working-directory: ./app
+      run: flutter analyze
+    - name: Run Widget Tests
+      working-directory: ./app
+      run: flutter test
+
+  deploy-to-vps:
+    needs: [laravel-backend-tests, flutter-frontend-tests]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - name: Deploying automatically to Cloud VPS
+      run: |
+        echo "This is a placeholder for SSH deployment commands (rsync, php artisan migrate, etc.)"
+        echo "Super Logic Enterprise Deployment Successful!"

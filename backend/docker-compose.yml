@@ -1,0 +1,70 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: antiribet-api
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+      - redis
+    networks:
+      - antiribet-network
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "8080:8080" # For Reverb Realtime
+    volumes:
+      - ./:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - antiribet-network
+
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-antiribet}
+      POSTGRES_USER: ${DB_USERNAME:-antiribet_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - antiribet-pgdata:/var/lib/postgresql/data
+    networks:
+      - antiribet-network
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    volumes:
+      - antiribet-redis:/data
+    networks:
+      - antiribet-network
+
+  queue-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: php artisan queue:work --sleep=3 --tries=3 --daemon
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+    networks:
+      - antiribet-network
+
+networks:
+  antiribet-network:
+    driver: bridge
+
+volumes:
+  antiribet-pgdata:
+  antiribet-redis:

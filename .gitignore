@@ -1,0 +1,108 @@
+# =========================
+# FLUTTER / DART
+# =========================
+app/.dart_tool/
+app/.packages
+app/.pub/
+app/.pub-cache/
+app/build/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/pubspec.lock
+app/.metadata
+app/web/favicon.png
+app/linux/
+app/macos/
+app/windows/
+app/.idea/
+app/*.iml
+app/ios/
+app/android/.gradle/
+app/android/app/build/
+app/android/local.properties
+app/android/.idea/
+app/android/app/src/main/res/
+*.apk
+*.aab
+*.jks
+*.keystore
+
+# =========================
+# LARAVEL / PHP
+# =========================
+backend/vendor/
+backend/node_modules/
+backend/.env
+backend/.env.backup
+backend/.env.production
+backend/storage/*.key
+backend/storage/logs/*.log
+backend/bootstrap/cache/*.php
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/public/hot
+backend/public/storage
+backend/public/build
+backend/.phpunit.result.cache
+backend/.php-cs-fixer.cache
+backend/.pint.json
+
+# =========================
+# REACT / COMPANY PROFILE
+# =========================
+company-profile-web/node_modules/
+company-profile-web/dist/
+company-profile-web/.env
+company-profile-web/.env.local
+company-profile-web/.env.production.local
+company-profile-web/.env.development.local
+company-profile-web/npm-debug.log*
+company-profile-web/yarn-debug.log*
+company-profile-web/yarn-error.log*
+
+# =========================
+# WEBSITE
+# =========================
+website/node_modules/
+
+# =========================
+# DOCKER
+# =========================
+docker-compose.override.yml
+
+# =========================
+# IDE / EDITOR
+# =========================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# OS
+# =========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# =========================
+# MISC
+# =========================
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+coverage/
+.cache/
+.env.local
+.env.*.local
